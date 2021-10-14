@@ -197,6 +197,7 @@ function BusinessCard({
       <div style={{ padding: 10, paddingLeft: 20, position: "relative" }}>
         <button
         type="button"
+        variant="outline-primary"
         style={{
           position: "absolute",
           right: 15,
