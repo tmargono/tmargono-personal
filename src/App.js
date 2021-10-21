@@ -266,8 +266,8 @@ function App() {
       tagline: "Engineer",
       title: "City of Los Angeles",
       //phone: "+123-456-789",
-      mail: "test@s.com",
-      location: "United States, Califonia",
+      //mail: "test@s.com",
+      location: "Los Angeles, California",
       linkedin: "/in/tmargono"
       //socials: [["linkedin", "/in/tmargono"]]
     }
