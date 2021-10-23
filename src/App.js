@@ -1,3 +1,6 @@
+import ReactCardFlip from 'react-card-flip';
+import React, { Component } from "react";
+
 // see https://iconsvg.xyz/
 const Linkedin = ({ size = 16 }) => (
   <svg
@@ -121,8 +124,9 @@ const Star = ({ size = 16, color = "currentColor" }) => (
     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
   </svg>
 );
-function BusinessCard({
+function BusinessCardFront({
   info,
+  flipFunction,
   headerColor = "#fff",
   headerBg = "#4285F4",
   headerStyle = {},
@@ -141,6 +145,7 @@ function BusinessCard({
         boxShadow: shadow !== false ? "#9E9E9E 0px 0px 10px" : "",
         ...style
       }}
+      onClick={flipFunction}
       {...props}
     >
       <div
@@ -170,8 +175,9 @@ function BusinessCard({
             background: "#fff"
           }}
           src={info.avatar}
-        />)}
-        {/*https://pbs.twimg.com/profile_images/1215572708336865280/_8lVTX2z_400x400.jpg*/}
+        />)
+      }
+      {/*https://pbs.twimg.com/profile_images/1215572708336865280/_8lVTX2z_400x400.jpg*/}
         <h1
           style={{
             fontSize: "17pt",
@@ -180,7 +186,7 @@ function BusinessCard({
             color: headerColor
           }}
         >
-          {info.displayName}
+          {info.name}
         </h1>
         {info.tagline && (
           <p
@@ -205,9 +211,14 @@ function BusinessCard({
             padding: 0
           }}
         >
-          {info.title && (
+          {info.location && (
             <li>
-              <Star /> {info.title}
+              <MapMarker2 /> {info.location}
+            </li>
+          )}
+          {info.website && (
+            <li>
+              <Star /> {info.website}
             </li>
           )}
           {info.phone && (
@@ -228,11 +239,6 @@ function BusinessCard({
               ))}
             </li>
           )}
-          {info.location && (
-            <li>
-              <MapMarker2 /> {info.location}
-            </li>
-          )}
           {info.linkedin && (
             <li>
               <Linkedin /> {info.linkedin}
@@ -244,37 +250,108 @@ function BusinessCard({
   );
 }
 
-function App() {
-  const front = 
-  {
-    displayName: "Timothy Margono",
-    tagline: "Engineer",
-    title: "City of Los Angeles",
-    location: "Los Angeles, California",
-    linkedin: "/in/tmargono"
-  };
+function BusinessCardBack({
+  info,
+  flipFunction,
+  headerColor = "#fff",
+  headerBg = "#4285F4",
+  headerStyle = {},
+  shadow = true,
+  style = {},
+  ...props
+}) {
   return (
     <div
+      className="card-business"
       style={{
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
+        background: headerBg,
+        width: "90mm",
+        height: "50mm",
+        borderRadius: "5px",
+        boxShadow: shadow !== false ? "#9E9E9E 0px 0px 10px" : "",
+        ...style
       }}
+      onClick={flipFunction}
+      {...props}
     >
-        
-    <BusinessCard info={front} />
-
-      <style>
-        {`
-        @import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
-        .card-business * {
-          font-family:  'Quicksand',sans-serif;
-        }
-     `}
-      </style>
+    <div
+        style={{
+          background: headerBg,
+          padding: 10,
+          paddingTop: 50,
+          paddingLeft: 80,
+          position: "relative",
+          borderTopRightRadius: "5px",
+          borderTopLeftRadius: "5px",
+          ...headerStyle
+        }}
+      >
+      <h1 
+       style={{
+        color: headerColor
+      }}>margono.io</h1>
+      </div>
     </div>
   );
+}
+
+class App extends Component {
+  constructor() {
+    super();
+      this.state = {
+      isFlipped: false
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick(e) {
+    e.preventDefault();
+    this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
+  }
+  render() {
+    const front = 
+    {
+      name: "Timothy Margono",
+      tagline: "DevOps / Cloud Engineer",
+      location: "Los Angeles, California",
+      linkedin: "/in/tmargono",
+      website: "timothymargono.com"
+    };
+    const back = 
+    {};
+    return (
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+      <ul style={{ listStyle: "none" }}>
+      <li style={{ margin: 30, paddingLeft: 110}}>
+        <h3>Click to Flip!</h3>
+      </li>
+
+      <li style={{ margin: 30 }}>
+      <ReactCardFlip isFlipped={this.state.isFlipped} flipDirection="horizontal">    
+      <BusinessCardFront info={front} flipFunction={this.handleClick}/>
+      <BusinessCardBack info={back} flipFunction={this.handleClick}/>
+      </ReactCardFlip>
+      </li>
+
+      </ul>
+
+        <style>
+          {`
+          @import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+          .card-business * {
+            font-family:  'Quicksand',sans-serif;
+          }
+      `}
+        </style>
+      </div>
+    );
+  }
 }
 
 export default App;
