@@ -22,8 +22,8 @@ const Linkedin = ({ size = 16 }) => (
   >
     <path d="M22.5 0c.83 0 1.5.67 1.5 1.5v21c0 .83-.67 1.5-1.5 1.5h-6v-9h3l.75-3.75H16.5v-1.5c0-1.5.75-2.25 2.25-2.25h1.5V3.75h-3c-2.76 0-4.5 2.16-4.5 5.25v2.25h-3V15h3v9H1.5A1.5 1.5 0 0 1 0 22.5v-21C0 .67.67 0 1.5 0h21z" />
   </svg>
-);*/
-/*const Twitter = ({ size = 16 }) => (
+);
+const Twitter = ({ size = 16 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -122,7 +122,7 @@ const Star = ({ size = 16, color = "currentColor" }) => (
   </svg>
 );
 function BusinessCard({
-  people,
+  info,
   headerColor = "#fff",
   headerBg = "#4285F4",
   headerStyle = {},
@@ -155,7 +155,8 @@ function BusinessCard({
           borderTopLeftRadius: "5px",
           ...headerStyle
         }}
-      >{/*
+      >
+      {info.avatar && (
         <img
           width={"60mm"}
           height={"60mm"}
@@ -168,8 +169,8 @@ function BusinessCard({
             float: "right",
             background: "#fff"
           }}
-          src={people.avatar}
-        />*/}
+          src={info.avatar}
+        />)}
         {/*https://pbs.twimg.com/profile_images/1215572708336865280/_8lVTX2z_400x400.jpg*/}
         <h1
           style={{
@@ -179,9 +180,9 @@ function BusinessCard({
             color: headerColor
           }}
         >
-          {people.displayName}
+          {info.displayName}
         </h1>
-        {people.tagline && (
+        {info.tagline && (
           <p
             style={{
               margin: 0,
@@ -190,25 +191,11 @@ function BusinessCard({
               color: "#ccc"
             }}
           >
-            <span>{people.tagline}</span>
+            <span>{info.tagline}</span>
           </p>
         )}
       </div>
       <div style={{ padding: 10, paddingLeft: 20, position: "relative" }}>
-        <button
-        type="button"
-        variant="outline-primary"
-        style={{
-          position: "absolute",
-          right: 15,
-          top: 10,
-          float: "right"
-        }}
-        onClick={(e) => {
-        e.preventDefault();
-        window.location.href='https://www.timothymargono.com';
-        }}
-        > Website</button>
         <ul
           style={{
             fontSize: "10pt",
@@ -218,37 +205,37 @@ function BusinessCard({
             padding: 0
           }}
         >
-          {people.title && (
+          {info.title && (
             <li>
-              <Star /> {people.title}
+              <Star /> {info.title}
             </li>
           )}
-          {people.phone && (
+          {info.phone && (
             <li>
-              <Phone /> {people.phone}
+              <Phone /> {info.phone}
             </li>
           )}
-          {people.mail && (
+          {info.mail && (
             <li>
-              <Mail /> {people.mail}
+              <Mail /> {info.mail}
             </li>
           )}
-          {people.socials && people.socials.length > 0 && (
+          {info.socials && info.socials.length > 0 && (
             <li>
               <Share />{" "}
-              {people.socials.map(([type, text]) => (
+              {info.socials.map(([type, text]) => (
                 <span style={{ marginRight: 5 }}>{text}</span>
               ))}
             </li>
           )}
-          {people.location && (
+          {info.location && (
             <li>
-              <MapMarker2 /> {people.location}
+              <MapMarker2 /> {info.location}
             </li>
           )}
-          {people.linkedin && (
+          {info.linkedin && (
             <li>
-              <Linkedin /> {people.linkedin}
+              <Linkedin /> {info.linkedin}
             </li>
           )}
         </ul>
@@ -258,31 +245,14 @@ function BusinessCard({
 }
 
 function App() {
-  const list = [
-    {
-      //avatar: "/qr.png",
-      //qr: "/qr.png",
-      displayName: "Timothy Margono",
-      tagline: "Engineer",
-      title: "City of Los Angeles",
-      //phone: "+123-456-789",
-      //mail: "test@s.com",
-      location: "Los Angeles, California",
-      linkedin: "/in/tmargono"
-      //socials: [["linkedin", "/in/tmargono"]]
-    }
-    /*{
-      avatar: "/avatar.png",
-      qr: "/qr.png",
-      displayName: "Bill Gates",
-      tagline: "Entrepreneur",
-      title: "CEO Gate Foudation",
-      phone: "+123-456-789",
-      mail: "bill@microsoft.com",
-      location: "United State , Califonia",
-      socials: [["twitter", "@billgates"], ["linkedin", "/in/billgates"]]
-    }*/
-  ];
+  const front = 
+  {
+    displayName: "Timothy Margono",
+    tagline: "Engineer",
+    title: "City of Los Angeles",
+    location: "Los Angeles, California",
+    linkedin: "/in/tmargono"
+  };
   return (
     <div
       style={{
@@ -292,13 +262,9 @@ function App() {
         justifyContent: "center"
       }}
     >
-      <ul style={{ listStyle: "none" }}>
-        {list.map(it => (
-          <li style={{ margin: 30 }}>
-            <BusinessCard people={it} />
-          </li>
-        ))}
-      </ul>
+        
+    <BusinessCard info={front} />
+
       <style>
         {`
         @import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
